@@ -14,7 +14,7 @@ model.eval()  # Set the model to evaluation mode
 
 # Define path to a test image
 image_path = "./dataset/test/Original"
-img_path = os.path.join(image_path, '10_A.png')
+img_path = os.path.join(image_path, '20_A.png')
 img = Image.open(img_path).convert("RGB")
 img = img.resize((256, 256))
 img = np.array(img, dtype=np.float32) / 255.0
@@ -34,7 +34,15 @@ predicted_mask = torch.sigmoid(predicted_mask).cpu().numpy()  # Shape: (1, 1, he
 predicted_mask = np.squeeze(predicted_mask)  # Remove the channel dimension
 
 # Visualize the predicted mask
-plt.figure(figsize=(8, 8))
+plt.figure(figsize=(16, 8))
+# Display the original image
+plt.subplot(1, 2, 1)
+plt.imshow(img[0])  # Adjust `cmap` based on your image type
+plt.axis('off')
+plt.title('Original Image')
+
+# Display the predicted mask
+plt.subplot(1, 2, 2)
 plt.imshow(predicted_mask, cmap='gray')
 plt.axis('off')
 plt.title('Predicted Mask')

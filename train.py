@@ -1,8 +1,5 @@
 import os
 import tensorflow as tf
-from tensorflow.keras.callbacks import EarlyStopping
-from keras.optimizers import Adam
-from keras.metrics import MeanIoU
 from model import UNet
 from dataloader import prepare_data
 import torch
@@ -31,14 +28,11 @@ train_masks = torch.tensor(train_masks, dtype=torch.float32).to(device)
 images_val = torch.tensor(images_val, dtype=torch.float32).to(device)
 masks_val = torch.tensor(masks_val, dtype=torch.float32).to(device)
 
-# Callbacks
-stop_callback = EarlyStopping(monitor='val_accuracy', restore_best_weights=True, verbose=1, mode='max', patience=50)
-
 # Set model to training mode
 model.train()
 
 # Training loop
-epochs = 5
+epochs = 10
 batch_size = 1
 
 print("Training the model...")
@@ -72,4 +66,4 @@ print("Training complete.")
 
 # Save the model
 os.makedirs('./model', exist_ok=True)
-model.save('./model/unet_model.h5')
+model.save('./model/unet_model_epoch10.pth')
